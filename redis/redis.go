@@ -58,3 +58,7 @@ func (rc *RedisClient) GetList(key string, start, stop int64) ([]string, error) 
 func (rc *RedisClient) SetExpires(key string, expiration time.Duration) error {
 	return rc.Client.Expire(key, expiration).Err()
 }
+
+func (rc *RedisClient) ExpiresAt(key string, t time.Time) error {
+	return rc.Client.ExpireAt(key, t).Err()
+}
