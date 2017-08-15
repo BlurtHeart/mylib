@@ -62,3 +62,7 @@ func (rc *RedisClient) SetExpires(key string, expiration time.Duration) error {
 func (rc *RedisClient) ExpiresAt(key string, t time.Time) error {
 	return rc.Client.ExpireAt(key, t).Err()
 }
+
+func (rc *RedisClient) GetTTL(key string) (time.Duration, error) {
+	return rc.Client.TTL(key).Result()
+}
