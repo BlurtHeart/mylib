@@ -3,6 +3,7 @@ package context
 import (
 	"fmt"
 	"testing"
+	"time"
 )
 
 // otherContext is a Context that's not one of the types defined in context.go.
@@ -69,18 +70,18 @@ func TestWithCancel(t *testing.T) {
 	}
 
 	cancel()
-	//time.Sleep(100 * time.Millisecond) // let cancelation propagate
-	//
-	//for i, c := range contexts {
-	//	select {
-	//	case <-c.Done():
-	//	default:
-	//		t.Errorf("<-c[%d].Done() blocked, but shouldn't have", i)
-	//	}
-	//	if e := c.Err(); e != Canceled {
-	//		t.Errorf("c[%d].Err() == %v want %v", i, e, Canceled)
-	//	}
-	//}
+	time.Sleep(100 * time.Millisecond) // let cancelation propagate
+
+	for i, c := range contexts {
+		select {
+		case <-c.Done():
+		default:
+			t.Errorf("<-c[%d].Done() blocked, but shouldn't have", i)
+		}
+		if e := c.Err(); e != Canceled {
+			t.Errorf("c[%d].Err() == %v want %v", i, e, Canceled)
+		}
+	}
 }
 
 //func TestParentFinishesChild(t *testing.T) {
