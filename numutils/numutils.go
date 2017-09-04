@@ -44,3 +44,21 @@ func ByteReverse(a int) int {
 	a = ((a & 0xFF00) >> 8) | ((a & 0x00FF) << 8)
 	return a
 }
+
+// reverse digits of an interger
+// such as 123 reverse to 321, -123 reverse to -321
+// if reversed integer overflows, then return 0
+func ReverseInt(x int) int {
+	var result int
+	for x != 0 {
+		tail := x % 10
+		newResult := result * 10 + tail
+		// check overflows
+		if (newResult - tail) / 10 != result {
+			return 0
+		}
+		result = newResult
+		x /= 10
+	}
+	return result
+}
