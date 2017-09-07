@@ -52,13 +52,23 @@ func ReverseInt(x int) int {
 	var result int
 	for x != 0 {
 		tail := x % 10
-		newResult := result * 10 + tail
+		newResult := result*10 + tail
 		// check overflows
-		if (newResult - tail) / 10 != result {
+		if (newResult-tail)/10 != result {
 			return 0
 		}
 		result = newResult
 		x /= 10
 	}
 	return result
+}
+
+// check whether x is palindrome
+func IsPalindrome(x int) bool {
+	y, t := 0, x
+	for t > 0 {
+		y = y*10 + t%10
+		t = t / 10
+	}
+	return x == y
 }
