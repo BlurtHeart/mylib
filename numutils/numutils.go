@@ -80,15 +80,33 @@ var (
 		{"", "C", "CC", "CCC", "CD", "D", "DC", "DCC", "DCCC", "CM"},
 		{"", "M", "MM", "MMM"},
 	}
+	romanBit = map[byte]int{'I': 1, 'V': 5, 'X': 10, 'L': 50, 'C': 100, 'D': 500, 'M': 1000}
 )
 
-// convert interger to roman string
-// int ranges from 1 to 3999
-func Int2Roman(num int) string {
+// convert integer to roman string
+// number ranges from 1 to 3999
+func IntToRoman(num int) string {
 	var roman string
 	roman += romanDigits[3][num/1000%10]
 	roman += romanDigits[2][num/100%10]
 	roman += romanDigits[1][num/10%10]
 	roman += romanDigits[0][num%10]
 	return roman
+}
+
+// convert roman string to integer
+// number ranges from 1 to 3999
+// I（1）、V（5）、X（10）、L（50）、C（100）、D（500）、 M（1000）
+func RomanToInt(s string) int {
+	var num int
+
+	for i := 0; i < len(s)-1; i++ {
+		if romanBit[s[i]] < romanBit[s[i+1]] {
+			num -= romanBit[s[i]]
+		} else {
+			num += romanBit[s[i]]
+		}
+	}
+	num += romanBit[s[len(s)-1]]
+	return num
 }
