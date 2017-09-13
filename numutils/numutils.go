@@ -18,9 +18,11 @@ func CheckOdd(a int) bool {
 	return false
 }
 
-func CalcAbs(a int) (ret int) {
-	ret = (a ^ a>>31) - a>>31
-	return
+func CalcAbs(a int) int {
+	if a < 0 {
+		return -a
+	}
+	return a
 }
 
 /*
