@@ -14,11 +14,11 @@ python的第三方库MySQLdb的使用方式。
 ### 插入数据
 
     m := mysql.NewMysql("127.0.0.1", 3306, "root", "111111", "test")
-    	m.Connect()
-    	sql := "insert user(username, password, token) values(\"wang\", \"aaaaaa\", \"aaa-aaaa-aaaaa\");"
-    	n, err := m.Insert(sql)
-    	if err != nil {
-    		fmt.Printf("got err:%v", err)
-    		return
-    	}
-    	fmt.Printf("insert operation affects %d rows\n", n)
+    m.Connect()
+    sql := "insert user(username, password, token) values(\"wang\", \"aaaaaa\", \"aaa-aaaa-aaaaa\");"
+    n, err := m.Insert(sql)
+    if err != nil {
+        fmt.Printf("got err:%v", err)
+        return
+    }
+    fmt.Printf("insert operation affects %d rows\n", n)

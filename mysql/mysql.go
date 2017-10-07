@@ -47,6 +47,17 @@ func (ms *MySQLdb) Connect() (err error) {
 	return
 }
 
+func (ms *MySQLdb) Close() {
+	ms.DB.Close()
+}
+
+// execute
+// need to implement
+func (ms *MySQLdb) Execute(sql string) error {
+	_, err := ms.DB.Exec(sql)
+	return err
+}
+
 // return number of affect rows by insert operation
 func (ms *MySQLdb) Insert(sql string) (n int64, err error) {
 	res, err := ms.DB.Exec(sql)
@@ -55,4 +66,10 @@ func (ms *MySQLdb) Insert(sql string) (n int64, err error) {
 	}
 	n, err = res.RowsAffected()
 	return
+}
+
+// create table
+func (ms *MySQLdb) CreateTable(sql string) error {
+	_, err := ms.DB.Exec(sql)
+	return err
 }
