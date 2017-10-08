@@ -24,6 +24,7 @@ type MySQLdb struct {
 	DBName   string
 	Charset  string
 	DB       *sql.DB
+	Rows     *sql.Rows
 }
 
 func NewMysql(host string, port int, username, password, dbname string) *MySQLdb {
@@ -48,14 +49,35 @@ func (ms *MySQLdb) Connect() (err error) {
 }
 
 func (ms *MySQLdb) Close() {
-	ms.DB.Close()
+	if ms.Rows != nil {
+		ms.Rows.Close()
+	}
+	if ms.DB != nil {
+		ms.DB.Close()
+	}
 }
 
 // execute
-// need to implement
 func (ms *MySQLdb) Execute(sql string) error {
 	_, err := ms.DB.Exec(sql)
 	return err
+}
+
+func (ms *MySQLdb) Query(sql string, args ...interface{}) (err error) {
+	rows, err := ms.DB.Query(sql)
+	if err != nil {
+		return
+	}
+	ms.Rows = rows
+	return
+}
+
+// when fetch all results, you can loop yourself by using this method
+func (ms *MySQLdb) FetchOne(args ...interface{}) error {
+	if ms.Rows.Next() {
+		return ms.Rows.Scan(args)
+	}
+	return nil
 }
 
 // return number of affect rows by insert operation
@@ -72,4 +94,11 @@ func (ms *MySQLdb) Insert(sql string) (n int64, err error) {
 func (ms *MySQLdb) CreateTable(sql string) error {
 	_, err := ms.DB.Exec(sql)
 	return err
+}
+
+// need to be implement
+// this method aim to improve delete efficiency
+func (ms *MySQLdb) Delete(sql string) error {
+	panic("need to implement")
+	return nil
 }
