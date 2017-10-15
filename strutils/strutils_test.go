@@ -54,3 +54,22 @@ func TestAtoi(t *testing.T) {
 		t.Errorf("want %d, got %v", s, err)
 	}
 }
+
+type baseTester struct {
+	input, output string
+}
+
+func TestSortString(t *testing.T) {
+	tests := []baseTester{
+		baseTester{
+			input:  "bcad",
+			output: "abcd",
+		},
+	}
+	for _, v := range tests {
+		got := SortString(v.input)
+		if got != v.output {
+			t.Errorf("want:%v, got:%v", v.output, got)
+		}
+	}
+}
