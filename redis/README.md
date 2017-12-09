@@ -5,13 +5,13 @@ RedisClient is a redis client written in golang. It can help you operate the red
 
 ## How to install?
 
-	go get github.com/blurtheart/mylib/redis
+	go get github.com/blurty/mylib/redis
 	
 ## How to use it?
 First you must import it
 
 	import (
-		"github.com/blurtheart/mylib/redis"
+		"github.com/blurty/mylib/redis"
 	)
 	
 Then in your code you can type it like this:
@@ -21,7 +21,7 @@ Then in your code you can type it like this:
     import (
         "fmt"
         "time"
-        "github.com/blurtheart/mylib/redis"
+        "github.com/blurty/mylib/redis"
     )
 
     func main() {

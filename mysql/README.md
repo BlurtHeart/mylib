@@ -7,7 +7,7 @@ python的第三方库MySQLdb的使用方式。
 
 ## 安装
 
-    go get -u github.com/blurtheart/mylib/mysql
+    go get -u github.com/blurty/mylib/mysql
 
 ## 使用
 

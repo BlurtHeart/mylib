@@ -1,12 +1,12 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"net/http"
 	"time"
 
-	"github.com/blurtheart/mylib/log"
-	"context"
+	"github.com/blurty/mylib/log"
 )
 
 func main() {
