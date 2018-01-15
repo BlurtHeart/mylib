@@ -6,7 +6,7 @@ import (
 
 type stack []interface{}
 
-func NewStack() *Stack {
+func NewStack() *stack {
 	return &stack{}
 }
 
