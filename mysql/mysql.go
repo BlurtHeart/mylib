@@ -80,6 +80,40 @@ func (ms *MySQLdb) FetchOne(args ...interface{}) error {
 	return nil
 }
 
+// timestamp:v["create_time"].(string)
+// int:strconv.Atoi(v["id"].(string))
+// string:v["name"].(string)
+func (ms *MySQLdb) FetchAll() ([]map[string]interface{}, error) {
+	colums, err := ms.Rows.Columns()
+	if err != nil {
+		return nil, err
+	}
+	count := len(colums)
+	tableData := make([]map[string]interface{}, 0)
+	values := make([]interface{}, count)
+	valuePtrs := make([]interface{}, count)
+	for ms.Rows.Next() {
+		for i := 0; i < count; i++ {
+			valuePtrs[i] = &values[i]
+		}
+		ms.Rows.Scan(valuePtrs...)
+		entry := make(map[string]interface{})
+		for i, col := range colums {
+			var v interface{}
+			val := values[i]
+			b, ok := val.([]byte)
+			if ok {
+				v = string(b)
+			} else {
+				v = val
+			}
+			entry[col] = v
+		}
+		tableData = append(tableData, entry)
+	}
+	return tableData, nil
+}
+
 // return number of affect rows by insert operation
 func (ms *MySQLdb) Insert(sql string) (n int64, err error) {
 	res, err := ms.DB.Exec(sql)
