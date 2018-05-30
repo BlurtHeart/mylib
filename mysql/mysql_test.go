@@ -13,7 +13,7 @@ package mysql
 //	m := NewMysql("127.0.0.1", 3306, "root", "111111", "test")
 //	m.Connect()
 //	defer m.Close()
-//	_, err := m.Insert("insert user(username, password, token) values(\"wang\", \"aaaaaa\", \"aaa-aaaa-aaaaa\");")
+//	_, err := m.Execute("insert user(username, password, token) values(\"wang\", \"aaaaaa\", \"aaa-aaaa-aaaaa\");")
 //	if err != nil {
 //		t.Errorf("got err:%v", err)
 //	}

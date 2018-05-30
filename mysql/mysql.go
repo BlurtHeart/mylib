@@ -42,6 +42,14 @@ func (ms *MySQLdb) SetCharset(charset string) {
 	ms.Charset = charset
 }
 
+func (ms *MySQLdb) SetMaxOpenConns(num int) {
+	ms.DB.SetMaxOpenConns(num)
+}
+
+func (ms *MySQLdb) SetMaxIdelConns(num int) {
+	ms.DB.SetMaxIdleConns(num)
+}
+
 func (ms *MySQLdb) Connect() (err error) {
 	dsn := fmt.Sprintf("%s:%s@tcp(%s:%d)/%s?charset=%s", ms.UserName, ms.Password, ms.Host, ms.Port, ms.DBName, ms.Charset)
 	ms.DB, err = sql.Open("mysql", dsn)
@@ -55,12 +63,6 @@ func (ms *MySQLdb) Close() {
 	if ms.DB != nil {
 		ms.DB.Close()
 	}
-}
-
-// execute
-func (ms *MySQLdb) Execute(sql string) error {
-	_, err := ms.DB.Exec(sql)
-	return err
 }
 
 func (ms *MySQLdb) Query(sql string, args ...interface{}) (err error) {
@@ -96,7 +98,10 @@ func (ms *MySQLdb) FetchAll() ([]map[string]interface{}, error) {
 		for i := 0; i < count; i++ {
 			valuePtrs[i] = &values[i]
 		}
-		ms.Rows.Scan(valuePtrs...)
+		err = ms.Rows.Scan(valuePtrs...)
+		if err != nil {
+			return nil, err
+		}
 		entry := make(map[string]interface{})
 		for i, col := range colums {
 			var v interface{}
@@ -114,8 +119,8 @@ func (ms *MySQLdb) FetchAll() ([]map[string]interface{}, error) {
 	return tableData, nil
 }
 
-// return number of affect rows by insert operation
-func (ms *MySQLdb) Insert(sql string) (n int64, err error) {
+// return number of affect rows by sql operation
+func (ms *MySQLdb) Execute(sql string) (n int64, err error) {
 	res, err := ms.DB.Exec(sql)
 	if err != nil {
 		return
@@ -128,11 +133,4 @@ func (ms *MySQLdb) Insert(sql string) (n int64, err error) {
 func (ms *MySQLdb) CreateTable(sql string) error {
 	_, err := ms.DB.Exec(sql)
 	return err
-}
-
-// need to be implement
-// this method aim to improve delete efficiency
-func (ms *MySQLdb) Delete(sql string) error {
-	panic("need to implement")
-	return nil
 }
